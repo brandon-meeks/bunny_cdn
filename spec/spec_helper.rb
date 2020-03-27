@@ -1,4 +1,5 @@
 require "bundler/setup"
+require "webmock/rspec"
 require "bunny_cdn"
 
 RSpec.configure do |config|
