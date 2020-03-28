@@ -2,8 +2,8 @@ module BunnyCdn
   class Storage
 
     BASE_URL = 'https://storage.bunnycdn.com'
-    STORAGE_ZONE = 'meekstech' # BunnyCdn.configuration.storageZone
-    API_KEY = '9be063cc-ab99-453c-8aa062ca040e-d1c8-4cc4' # BunnyCdn.configuration.accessKey
+    STORAGE_ZONE = BunnyCdn.configuration.storageZone
+    API_KEY = BunnyCdn.configuration.accessKey
 
     HEADERS =
       {
