@@ -1,3 +1,5 @@
+[![Codeship Status for brandon-meeks/bunny_cdn](https://app.codeship.com/projects/7f94a660-529a-0138-70bd-36e3badc0e07/status?branch=master)](https://app.codeship.com/projects/390509)
+
 # BunnyCdn
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/bunny_cdn`. To experiment with that code, run `bin/console` for an interactive prompt.
