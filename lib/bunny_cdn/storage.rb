@@ -2,41 +2,43 @@ module BunnyCdn
   class Storage
 
     BASE_URL = 'https://storage.bunnycdn.com'
-    STORAGE_ZONE = BunnyCdn.configuration.storageZone
-    API_KEY = BunnyCdn.configuration.accessKey
 
-    HEADERS =
+    def self.storageZone
+      BunnyCdn.configuration.storageZone
+    end
+
+    def self.apiKey
+      BunnyCdn.configuration.accessKey
+    end
+
+    def self.headers
       {
-        :accept => 'application/json',
-        :accesskey => API_KEY
+        :accesskey => apiKey
       }
+    end
 
     def self.getZoneFiles(path= '')
-      response = RestClient.get("#{BASE_URL}/#{STORAGE_ZONE}/#{path}", HEADERS)
-      puts response
+      response = RestClient.get("#{BASE_URL}/#{storageZone}/#{path}", headers)
       return response.body
     end
 
     def self.getFile(path= '', file)
-      response = RestClient.get("#{BASE_URL}/#{STORAGE_ZONE}/#{path}/#{file}", HEADERS)
+      response = RestClient.get("#{BASE_URL}/#{storageZone}/#{path}/#{file}", headers)
       return response.body
     end
 
     def self.uploadFile(path= '', file)
       fileName = File.basename(file)
       headers = {
-        :accessKey => API_KEY,
+        :accessKey => apiKey,
         :checksum => ''
       }
-      response = RestClient.put("#{BASE_URL}/#{STORAGE_ZONE}/#{path}/#{fileName}", File.read(file), headers)
+      response = RestClient.put("#{BASE_URL}/#{storageZone}/#{path}/#{fileName}", File.read(file), headers)
       return response.body
     end
 
     def self.deleteFile(path= '', file)
-      headers = {
-        :accessKey => API_KEY
-      }
-      response = RestClient.delete("#{BASE_URL}/#{STORAGE_ZONE}/#{path}/#{file}", headers)
+      response = RestClient.delete("#{BASE_URL}/#{storageZone}/#{path}/#{file}", headers)
       return response.body
     end
 
