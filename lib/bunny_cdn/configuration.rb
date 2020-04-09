@@ -1,10 +1,11 @@
 module BunnyCdn
     class Configuration
-        attr_accessor :storageZone, :accessKey
+        attr_accessor :storageZone, :accessKey, :apiKey
 
         def initialize
             @storageZone = nil
             @accessKey = nil
+            @apiKey = nil
         end
     end
 
