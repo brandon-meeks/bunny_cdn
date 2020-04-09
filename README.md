@@ -2,9 +2,9 @@
 
 # BunnyCdn
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/bunny_cdn`. To experiment with that code, run `bin/console` for an interactive prompt.
+This gem allows you to interact with the BunnyCdn API. Currently you can interact with the Storage and Pullzone APIs.
 
-TODO: Delete this and the text above, and describe your gem
+This does require you to have an account with [BunnyCDN](https://bunnycdn.com/).
 
 ## Installation
 
@@ -24,7 +24,17 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Rails
+
+Create the initializer `config/initializers/bunny_cdn.rb` and set the configuration options.
+
+```ruby
+BunnyCdn.configure do |config|
+    config.apiKey = # The API key for your BunnyCDN account
+    config.storageZone = # The storage zone you want to work with
+    config.accessKey = # The password for your storage zone
+end
+```
 
 ## Development
 
