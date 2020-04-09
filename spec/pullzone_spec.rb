@@ -3,14 +3,13 @@ require 'spec_helper'
 RSpec.describe BunnyCdn::Pullzone do
   before(:each) do
     BunnyCdn.configure do |config|
-      config.storageZone = ENV['STORAGE_ZONE']
-      config.accessKey = ENV['ACCESS_KEY']
+      config.apiKey = ENV['API_KEY']
     end
     headers = 
     {
       :content_type => 'application/json', 
       :accept => 'application/json',
-      :accesskey => BunnyCdn.configuration.accessKey
+      :accesskey => BunnyCdn.configuration.apiKey
     }
   end
 
@@ -30,7 +29,7 @@ RSpec.describe BunnyCdn::Pullzone do
         with(headers: {
         :content_type => 'application/json', 
         :accept => 'application/json',
-        :accesskey => BunnyCdn.configuration.accessKey
+        :accesskey => BunnyCdn.configuration.apiKey
         }).once
     end
   end
