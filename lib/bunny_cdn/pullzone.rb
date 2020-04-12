@@ -1,6 +1,8 @@
 module BunnyCdn
   class Pullzone
 
+    RestClient.log = STDOUT # enables RestClient logging
+
     BASE_URL = 'https://bunnycdn.com/api/pullzone'
 
     def self.apiKey
