@@ -4,6 +4,7 @@ RSpec.describe BunnyCdn::Storage do
   before(:each) do
     BunnyCdn.configure do |config|
       config.storageZone = ENV['STORAGE_ZONE']
+      config.region = ENV['REGION']
       config.accessKey = ENV['ACCESS_KEY']
     end
     headers = {
@@ -13,7 +14,7 @@ RSpec.describe BunnyCdn::Storage do
 
   describe "#getAllFiles" do
     before do
-      stub_request(:get, "https://storage.bunnycdn.com/#{BunnyCdn.configuration.storageZone}/#{ENV['FILE_PATH']}").
+      stub_request(:get, "#{BunnyCdn::Storage.set_region_url}/#{BunnyCdn.configuration.storageZone}/#{ENV['FILE_PATH']}").
         with(
           headers: {
             :accesskey => BunnyCdn.configuration.accessKey
@@ -26,7 +27,7 @@ RSpec.describe BunnyCdn::Storage do
       }
       BunnyCdn::Storage.getZoneFiles
       # RestClient.get("https://storage.bunnycdn.com/#{BunnyCdn.configuration.storageZone}/", headers)
-      expect(WebMock).to have_requested(:get ,"https://storage.bunnycdn.com/#{BunnyCdn.configuration.storageZone}/").
+      expect(WebMock).to have_requested(:get ,"#{BunnyCdn::Storage.set_region_url}/#{BunnyCdn.configuration.storageZone}/").
         with(headers: {
           :accesskey => BunnyCdn.configuration.accessKey
         }).once
@@ -36,7 +37,7 @@ RSpec.describe BunnyCdn::Storage do
   describe "#getFile" do
     before do
       file = 'test_file.txt'
-      stub_request(:get, "https://storage.bunnycdn.com/#{BunnyCdn.configuration.storageZone}/#{ENV['FILE_PATH']}/#{file}").
+      stub_request(:get, "#{BunnyCdn::Storage.set_region_url}/#{BunnyCdn.configuration.storageZone}/#{ENV['FILE_PATH']}/#{file}").
         with(
           headers: {
             :accesskey => BunnyCdn.configuration.accessKey
@@ -50,7 +51,7 @@ RSpec.describe BunnyCdn::Storage do
       path = ENV['FILE_PATH']
       file = 'test_file.txt'
       BunnyCdn::Storage.getFile(path, file)
-      expect(WebMock).to have_requested(:get ,"https://storage.bunnycdn.com/#{BunnyCdn.configuration.storageZone}/#{path}/#{file}").
+      expect(WebMock).to have_requested(:get ,"#{BunnyCdn::Storage.set_region_url}/#{BunnyCdn.configuration.storageZone}/#{path}/#{file}").
         with(headers: {
           :accesskey => BunnyCdn.configuration.accessKey
         }).once
@@ -60,7 +61,7 @@ RSpec.describe BunnyCdn::Storage do
   describe "#uploadFile" do
     before do
       file = File.join('spec', 'test_file.txt')
-      stub_request(:put, "https://storage.bunnycdn.com/#{BunnyCdn.configuration.storageZone}/#{ENV['FILE_PATH']}/#{File.basename(file)}").
+      stub_request(:put, "#{BunnyCdn::Storage.set_region_url}/#{BunnyCdn.configuration.storageZone}/#{ENV['FILE_PATH']}/#{File.basename(file)}").
         with(
           headers: {
             :accesskey => BunnyCdn.configuration.accessKey,
@@ -77,8 +78,8 @@ RSpec.describe BunnyCdn::Storage do
       path = ENV['FILE_PATH']
       file = File.join('spec', 'test_file.txt')
       # BunnyCdn::Storage.uploadFile(path, file)
-      RestClient.put("https://storage.bunnycdn.com/#{BunnyCdn.configuration.storageZone}/#{ENV['FILE_PATH']}/#{File.basename(file)}", File.read(file), headers)
-      expect(WebMock).to have_requested(:put ,"https://storage.bunnycdn.com/#{BunnyCdn.configuration.storageZone}/#{ENV['FILE_PATH']}/#{File.basename(file)}").
+      RestClient.put("#{BunnyCdn::Storage.set_region_url}/#{BunnyCdn.configuration.storageZone}/#{ENV['FILE_PATH']}/#{File.basename(file)}", File.read(file), headers)
+      expect(WebMock).to have_requested(:put ,"#{BunnyCdn::Storage.set_region_url}/#{BunnyCdn.configuration.storageZone}/#{ENV['FILE_PATH']}/#{File.basename(file)}").
         with(headers: {
           :accesskey => BunnyCdn.configuration.accessKey,
           :checksum => ''
