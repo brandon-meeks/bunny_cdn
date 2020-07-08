@@ -3,12 +3,21 @@ module BunnyCdn
     
     RestClient.log = STDOUT # enables RestClient logging
 
-    BASE_URL = 'https://storage.bunnycdn.com'
-
     def self.storageZone
       BunnyCdn.configuration.storageZone
     end
-
+    # Sets the proper URL based on the region set in configuration
+    def self.set_region_url
+      case BunnyCdn.configuration.region
+      when nil || 'eu'
+        'https://storage.bunnycdn.com'
+      when 'ny'
+        'https://ny.storage.bunnycdn.com'
+      when 'sg'
+        'https://sg.storage.bunnycdn.com'
+      end
+    end
+      
     def self.apiKey
       BunnyCdn.configuration.accessKey
     end
@@ -21,7 +30,7 @@ module BunnyCdn
 
     def self.getZoneFiles(path= '')
       begin
-        response = RestClient.get("#{BASE_URL}/#{storageZone}/#{path}", headers)
+        response = RestClient.get("#{set_region_url}/#{storageZone}/#{path}", headers)
       rescue RestClient::ExceptionWithResponse => exception
         return exception
       end
@@ -30,7 +39,7 @@ module BunnyCdn
 
     def self.getFile(path= '', file)
       begin
-        response = RestClient.get("#{BASE_URL}/#{storageZone}/#{path}/#{file}", headers)
+        response = RestClient.get("#{set_region_url}/#{storageZone}/#{path}/#{file}", headers)
       rescue RestClient::ExceptionWithResponse => exception
         return exception
       end
@@ -44,7 +53,7 @@ module BunnyCdn
         :checksum => ''
       }
       begin
-        response = RestClient.put("#{BASE_URL}/#{storageZone}/#{path}/#{fileName}", File.read(file), headers)
+        response = RestClient.put("#{set_region_url}/#{storageZone}/#{path}/#{fileName}", File.read(file), headers)
       rescue RestClient::ExceptionWithResponse => exception
         return exception
       end
@@ -53,7 +62,7 @@ module BunnyCdn
 
     def self.deleteFile(path= '', file)
       begin
-        response = RestClient.delete("#{BASE_URL}/#{storageZone}/#{path}/#{file}", headers)
+        response = RestClient.delete("#{set_region_url}/#{storageZone}/#{path}/#{file}", headers)
       rescue RestClient::ExceptionWithResponse => exception
         return exception
       end
