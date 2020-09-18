@@ -2,6 +2,7 @@ module BunnyCdn
     class Configuration
         attr_accessor :storageZone, :region, :accessKey, :apiKey
 
+        # Sets the configuration variables upon calling BunnyCdn::Configuration.new
         def initialize
             @storageZone = nil
             @region = nil # Options are: eu, ny, la or sg (Asia)
@@ -14,7 +15,6 @@ module BunnyCdn
         @configuration ||= Configuration.new
     end
 
-    # Set BunnyCdn's configuration
     def self.configuration=(config)
         @configuration = config
     end

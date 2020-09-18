@@ -34,7 +34,7 @@ Create the initializer `config/initializers/bunny_cdn.rb` and set the configurat
 BunnyCdn.configure do |config|
     config.apiKey = # The API key for your BunnyCDN account
     config.storageZone = # The storage zone you want to work with
-    config.region = # the region of the storage zone. Options are 'eu' for Falkenstein, 'ny' for New York, or 'sg' for Asia
+    config.region = # the region of the storage zone. Options are 'eu' for Falkenstein, 'ny' for New York, 'la' for Los Angeles, or 'sg' for Asia
     config.accessKey = # The password for your storage zone
 end
 ```
