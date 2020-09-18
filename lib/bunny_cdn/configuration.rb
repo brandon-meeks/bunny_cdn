@@ -4,7 +4,7 @@ module BunnyCdn
 
         def initialize
             @storageZone = nil
-            @region = nil # Options are: eu, ny or sg (Asia)
+            @region = nil # Options are: eu, ny, la or sg (Asia)
             @accessKey = nil
             @apiKey = nil
         end

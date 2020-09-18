@@ -13,6 +13,8 @@ module BunnyCdn
         'https://storage.bunnycdn.com'
       when 'ny'
         'https://ny.storage.bunnycdn.com'
+      when 'la'
+        'https://la.storage.bunnycdn.com'
       when 'sg'
         'https://sg.storage.bunnycdn.com'
       end
