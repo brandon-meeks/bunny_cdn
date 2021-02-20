@@ -39,6 +39,19 @@ BunnyCdn.configure do |config|
 end
 ```
 
+### File Uploads
+
+New to v1.2.0, there are now two methods for handling file uploads. 
+
+To upload a file from a file input on a form, simply use 
+```ruby
+BunnyCdn::Storage.uploadFormFile(path, file)
+```
+
+To upload a file to BunnyCDN that already exists on the system, or to upload a file as a secondary option to storing it on the system use
+```ruby
+BunnyCdn::Storage.uploadFile(path, file)
+```
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

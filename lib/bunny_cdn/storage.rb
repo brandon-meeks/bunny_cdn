@@ -59,7 +59,7 @@ module BunnyCdn
       return response.body
     end
 
-    # Uploads a file to the storage zone
+    # Uploads a file on the system to the storage zone
     # Params:
     # +path+:: desired path to upload file
     # +file+:: specific file to upload to storage zone
@@ -71,6 +71,24 @@ module BunnyCdn
       }
       begin
         response = RestClient.put("#{set_region_url}/#{storageZone}/#{path}/#{fileName}", File.read(file), headers)
+      rescue RestClient::ExceptionWithResponse => exception
+        return exception
+      end
+      return response.body
+    end
+
+    # Uploads a file from a file input to the storage zone
+    # Params:
+    # +path+:: desired path to upload file
+    # +file+:: specific file to upload to storage zone
+    def self.uploadFormFile(path= '', file)
+      fileName = file.original_filename
+      headers = {
+        :accessKey => apiKey,
+        :checksum => ''
+      }
+      begin
+        response = RestClient.put("#{set_region_url}/#{storageZone}/#{path}/#{fileName}", File.read(file.tempfile), headers)
       rescue RestClient::ExceptionWithResponse => exception
         return exception
       end
