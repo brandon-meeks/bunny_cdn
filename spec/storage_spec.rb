@@ -87,26 +87,27 @@ RSpec.describe BunnyCdn::Storage do
     end
   end
 
-  # describe "#deleteFile" do
-  #   before do
-  #     stub_request(:delete, "https://storage.bunnycdn.com/#{BunnyCdn.configuration.storageZone}/#{ENV['FILE_PATH']}/#{ENV['FILE_NAME']}").
-  #       with(
-  #         headers: {
-  #           :accesskey => BunnyCdn.configuration.accessKey
-  #         }).
-  #         to_return(status: 200)
-  #   end
-  #   it "deletes file to storage zone" do
-  #     headers = {
-  #       :accessKey => BunnyCdn.configuration.accessKey
-  #     }
-  #     path = ENV['FILE_PATH']
-  #     file = ENV['FILE_NAME']
-  #     BunnyCdn::Storage.deleteFile(path, file)
-  #     expect(WebMock).to have_requested(:delete ,"https://storage.bunnycdn.com/#{BunnyCdn.configuration.storageZone}/#{ENV['FILE_PATH']}/#{ENV['FILE_NAME']}").
-  #       with(headers: {
-  #         :accesskey => BunnyCdn.configuration.accessKey
-  #       }).once
-  #   end
-  # end
+  describe "#deleteFile" do
+    before do
+      file = 'test_file.txt'
+      stub_request(:delete, "#{BunnyCdn::Storage.set_region_url}/#{BunnyCdn.configuration.storageZone}/#{ENV['FILE_PATH']}/#{file}").
+        with(
+          headers: {
+            :accesskey => BunnyCdn.configuration.accessKey
+          }).
+          to_return(status: 200)
+    end
+    it "deletes file to storage zone" do
+      headers = {
+        :accessKey => BunnyCdn.configuration.accessKey
+      }
+      path = ENV['FILE_PATH']
+      file = 'test_file.txt'
+      BunnyCdn::Storage.deleteFile(path, file)
+      expect(WebMock).to have_requested(:delete ,"#{BunnyCdn::Storage.set_region_url}/#{BunnyCdn.configuration.storageZone}/#{ENV['FILE_PATH']}/#{file}").
+        with(headers: {
+          :accesskey => BunnyCdn.configuration.accessKey
+        }).once
+    end
+  end
 end

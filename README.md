@@ -31,10 +31,20 @@ Or install it yourself as:
 Create the initializer `config/initializers/bunny_cdn.rb` and set the configuration options.
 
 ```ruby
+# Valid regions are:
+# 'de' for Frankfurt, DE
+# 'uk' for London, UK
+# 'ny' for New York, US
+# 'la' for Los Angeles, US
+# 'sg' for Singapore, SG
+# 'se' for Stockholm, SE
+# 'br' for São Paulo, BR
+# 'jh' for Johannesburg, SA
+# 'syd' for Sydney, SYD
 BunnyCdn.configure do |config|
     config.apiKey = # The API key for your BunnyCDN account
     config.storageZone = # The storage zone you want to work with
-    config.region = # the region of the storage zone. Options are 'eu' for Falkenstein, 'ny' for New York, 'la' for Los Angeles, or 'sg' for Asia
+    config.region = # The region of the storage zone.
     config.accessKey = # The password for your storage zone
 end
 ```

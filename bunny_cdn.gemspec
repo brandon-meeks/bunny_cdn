@@ -29,12 +29,12 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency 'rest-client', '~> 2.1'
-  spec.add_dependency 'json', '~> 2.3'
+  spec.add_dependency 'json', '~> 2.12'
 
-  spec.add_development_dependency "bundler", "~> 2.0"
-  spec.add_development_dependency "rake", "~> 12.3", ">= 12.3.3"
-  spec.add_development_dependency "rspec", "~> 3.0"
-  spec.add_development_dependency "webmock", '~> 3.8', '>= 3.8.3'
+  spec.add_development_dependency "bundler", '~> 2.6.9'
+  spec.add_development_dependency "rake", '~> 13.2', '>= 13.2.1'
+  spec.add_development_dependency "rspec", '~> 3.13'
+  spec.add_development_dependency "webmock", '~> 3.25', '>= 3.25.1'
 
-  spec.required_ruby_version = '>= 2.0.1'
+  spec.required_ruby_version = '>= 3.0.0'
 end

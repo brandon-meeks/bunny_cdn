@@ -10,15 +10,10 @@ module BunnyCdn
 
     # Sets the proper URL based on the region set in configuration
     def self.set_region_url
-      case BunnyCdn.configuration.region
-      when nil || 'eu'
+      if BunnyCdn.configuration.region.nil? || BunnyCdn.configuration.region == 'de'
         'https://storage.bunnycdn.com'
-      when 'ny'
-        'https://ny.storage.bunnycdn.com'
-      when 'la'
-        'https://la.storage.bunnycdn.com'
-      when 'sg'
-        'https://sg.storage.bunnycdn.com'
+      else
+        "https://#{BunnyCdn.configuration.region}.storage.bunnycdn.com"
       end
     end
     
