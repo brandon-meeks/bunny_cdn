@@ -1,9 +1,9 @@
-require "rest-client"
+require "faraday"
+require "faraday/retry"
 require "json"
 require "bunny_cdn/version"
-require_relative "bunny_cdn/configuration"
-require_relative "bunny_cdn/storage"
-require_relative "bunny_cdn/pullzone"
-
-module BunnyCdn
-end
+require "bunny_cdn/error"
+require "bunny_cdn/client"
+require "bunny_cdn/resources/base"
+require "bunny_cdn/resources/pull_zones"
+require "bunny_cdn/resources/storage"
