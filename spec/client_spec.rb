@@ -41,4 +41,47 @@ RSpec.describe BunnyCdn::Client do
       expect(storage).to be_a(BunnyCdn::Resources::Storage)
     end
   end
+
+  describe "#connection" do
+    describe "headers" do
+      it "sets AccessKey header" do
+        stub_request(:get, "https://api.bunny.net/test").to_return(status: 200, body: "{}")
+        client.connection.get("/test")
+        expect(WebMock).to have_requested(:get, "https://api.bunny.net/test")
+          .with(headers: {"AccessKey" => "test-key"})
+      end
+
+      it "sets Accept header to application/json" do
+        stub_request(:get, "https://api.bunny.net/test").to_return(status: 200, body: "{}")
+        client.connection.get("/test")
+        expect(WebMock).to have_requested(:get, "https://api.bunny.net/test")
+          .with(headers: {"Accept" => "application/json"})
+      end
+    end
+
+    describe "JSON encoding" do
+      it "encodes request bodies as JSON" do
+        stub_request(:post, "https://api.bunny.net/test").to_return(status: 200, body: "{}")
+        client.connection.post("/test") { |req| req.body = {name: "test"} }
+        expect(WebMock).to have_requested(:post, "https://api.bunny.net/test")
+          .with(body: '{"name":"test"}')
+      end
+    end
+
+    describe "retry middleware" do
+      it "is configured in the middleware stack" do
+        handlers = client.connection.builder.handlers.map(&:name)
+        expect(handlers).to include("Faraday::Retry::Middleware")
+      end
+
+      it "retries on timeout errors" do
+        stub_request(:get, "https://api.bunny.net/test")
+          .to_raise(Faraday::TimeoutError).then
+          .to_return(status: 200, body: '{"ok":true}')
+
+        response = client.connection.get("/test")
+        expect(JSON.parse(response.body)["ok"]).to be true
+      end
+    end
+  end
 end

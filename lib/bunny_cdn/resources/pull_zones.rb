@@ -3,8 +3,8 @@ require "cgi"
 module BunnyCdn
   module Resources
     class PullZones < Base
-      def list
-        get("pullzone", { page: 1, perPage: 1 })
+      def list(page: 1, per_page: 1000)
+        get("pullzone?page=#{page}&perPage=#{per_page}")
       end
 
       def find(id)

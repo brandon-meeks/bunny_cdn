@@ -108,6 +108,41 @@ RSpec.describe BunnyCdn::Resources::Storage do
     end
   end
 
+  describe "#upload error handling" do
+    let(:tempfile) { Tempfile.new(["logo", ".png"]) }
+
+    before do
+      tempfile.write("file contents")
+      tempfile.rewind
+    end
+
+    after { tempfile.close; tempfile.unlink }
+
+    it "raises ApiError when upload fails with 404" do
+      stub_request(:put, "https://storage.bunnycdn.com/test-zone/images/logo.png")
+        .with(headers: { "AccessKey" => "test-key" }, body: "file contents")
+        .to_return(status: 404, body: "not found", headers: { "Content-Type" => "text/plain" })
+
+      expect {
+        resource.upload("images/logo.png", tempfile.path)
+      }.to raise_error(BunnyCdn::ApiError) do |error|
+        expect(error.status).to eq(404)
+      end
+    end
+
+    it "raises ApiError when upload fails with 500" do
+      stub_request(:put, "https://storage.bunnycdn.com/test-zone/images/logo.png")
+        .with(headers: { "AccessKey" => "test-key" }, body: "file contents")
+        .to_return(status: 500, body: "internal server error", headers: { "Content-Type" => "text/plain" })
+
+      expect {
+        resource.upload("images/logo.png", tempfile.path)
+      }.to raise_error(BunnyCdn::ApiError) do |error|
+        expect(error.status).to eq(500)
+      end
+    end
+  end
+
   describe "#delete" do
     before do
       stub_request(:delete, "https://storage.bunnycdn.com/test-zone/images/logo.png")

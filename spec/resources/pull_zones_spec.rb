@@ -6,7 +6,7 @@ RSpec.describe BunnyCdn::Resources::PullZones do
 
   describe "#list" do
     before do
-      stub_request(:get, "https://api.bunny.net/pullzone?page=1&perPage=1")
+      stub_request(:get, "https://api.bunny.net/pullzone?page=1&perPage=1000")
         .with(headers: { "AccessKey" => "test-key", "Accept" => "application/json" })
         .to_return(status: 200, body: [{ "Id" => 1 }].to_json, headers: { "Content-Type" => "application/json" })
     end
@@ -14,6 +14,22 @@ RSpec.describe BunnyCdn::Resources::PullZones do
     it "returns parsed JSON" do
       result = resource.list
       expect(result).to eq([{ "Id" => 1 }])
+    end
+
+    it "sends default query params" do
+      resource.list
+      expect(WebMock).to have_requested(:get, "https://api.bunny.net/pullzone?page=1&perPage=1000")
+        .with(headers: { "AccessKey" => "test-key", "Accept" => "application/json" })
+    end
+
+    it "sends custom page and per_page query params" do
+      stub_request(:get, "https://api.bunny.net/pullzone?page=2&perPage=50")
+        .with(headers: { "AccessKey" => "test-key", "Accept" => "application/json" })
+        .to_return(status: 200, body: [{ "Id" => 2 }].to_json, headers: { "Content-Type" => "application/json" })
+
+      resource.list(page: 2, per_page: 50)
+      expect(WebMock).to have_requested(:get, "https://api.bunny.net/pullzone?page=2&perPage=50")
+        .with(headers: { "AccessKey" => "test-key", "Accept" => "application/json" })
     end
   end
 
