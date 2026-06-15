@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'rest-client', '~> 2.1'
   spec.add_dependency 'json', '~> 2.12'
 
-  spec.add_development_dependency "bundler", '~> 2.6.9'
+  spec.add_development_dependency "bundler", '~> 4.0.10'
   spec.add_development_dependency "rake", '~> 13.2', '>= 13.2.1'
   spec.add_development_dependency "rspec", '~> 3.13'
   spec.add_development_dependency "webmock", '~> 3.25', '>= 3.25.1'
