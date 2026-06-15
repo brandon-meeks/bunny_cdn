@@ -25,7 +25,6 @@ module BunnyCdn
         conn.headers["AccessKey"] = api_key
         conn.headers["Accept"] = "application/json"
         conn.request :json
-        conn.response :json, content_type: /\bjson$/
         conn.request :retry,
           max: 3,
           interval: 1,
