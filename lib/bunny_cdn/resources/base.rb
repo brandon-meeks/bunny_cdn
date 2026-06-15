@@ -32,14 +32,26 @@ module BunnyCdn
 
       def handle_response(response, path)
         if response.success?
-          response.body
+          parse_body(response.body)
         else
           raise ApiError.new(
             "[BunnyCdn] #{path} failed: #{response.status} #{response.body}",
             status: response.status,
-            response: response.body
+            response: parse_body(response.body)
           )
         end
+      end
+
+      def parse_body(body)
+        return body unless body.is_a?(String)
+
+        if body.empty?
+          ""
+        else
+          JSON.parse(body)
+        end
+      rescue JSON::ParserError
+        body
       end
     end
   end
