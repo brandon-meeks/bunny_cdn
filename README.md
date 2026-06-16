@@ -1,4 +1,4 @@
-[![Gem Version](https://badge.fury.io/rb/bunny_cdn.svg)](https://badge.fury.io/rb/bunny_cdn)
+[![Gem Version](https://badge.fury.io/rb/bunny_cdn.svg?v=2.0)](https://badge.fury.io/rb/bunny_cdn)
 [![Maintainability](https://api.codeclimate.com/v1/badges/2cc8e5b9529c32d7473f/maintainability)](https://codeclimate.com/github/brandon-meeks/bunny_cdn/maintainability)
 
 # BunnyCdn
